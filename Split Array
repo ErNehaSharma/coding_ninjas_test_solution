@@ -1,0 +1,62 @@
+Split Array
+
+Given an integer array A of size N, check if the input array can be divided in two groups G1 and G2 with following properties-
+- Sum of both group elements are equal
+- Group 1: All elements in the input, which are divisible by 5 
+- Group 2: All elements in the input, which are divisible by 3 (but not divisible by 5). 
+- Elements which are neither divisible by 5 nor by 3, can be put in either group G1 or G2 to satisfy the equal sum property. 
+Group 1 and Group 2 are allowed to be unordered and all the elements in the Array A must belong to only one of the groups.
+
+
+Return true, if array can be split according to the above rules, else return false.
+Note: You will get marks only if all the test cases are passed.
+Input Format :
+Line 1 : Integer N (size of array)
+Line 2 : Array A elements (separated by space)
+Output Format :
+true or false
+Constraints :
+1 <= N <= 50
+Sample Input 1 :
+2
+1 2
+Sample Output 1 :
+false
+Sample Input 2 :
+3
+1 4 3
+Sample Output 2 :
+true
+___________________________________________________________________________________________
+solution for this here
+def canDivideIntoGroups(arr, idx, sum_g1, sum_g2):
+    if idx == len(arr):
+        return sum_g1 == sum_g2
+    
+    current_element = arr[idx]
+    
+    # Element divisible by 5 goes to Group 1
+    if current_element % 5 == 0:
+        return canDivideIntoGroups(arr, idx + 1, sum_g1 + current_element, sum_g2)
+    
+    # Element divisible by 3 (but not 5) goes to Group 2
+    if current_element % 3 == 0:
+        return canDivideIntoGroups(arr, idx + 1, sum_g1, sum_g2 + current_element)
+    
+    # Element neither divisible by 3 nor by 5 can go to either group
+    # Try putting it in both groups and see if it works
+    return (canDivideIntoGroups(arr, idx + 1, sum_g1 + current_element, sum_g2) or
+            canDivideIntoGroups(arr, idx + 1, sum_g1, sum_g2 + current_element))
+
+def canSplitArray(arr):
+    return canDivideIntoGroups(arr, 0, 0, 0)
+
+# Input
+N = int(input())
+arr = list(map(int, input().split()))
+
+# Check if the array can be split
+result = canSplitArray(arr)
+
+# Output in lowercase
+print(str(result).lower())
