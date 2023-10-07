@@ -1,0 +1,1 @@
+# coding_ninjas_test_solution
